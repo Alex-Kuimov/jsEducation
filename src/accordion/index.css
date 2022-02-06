@@ -1,0 +1,13 @@
+.accordion {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.accordion__head {
+  box-sizing: inherit;
+}
+
+.accordion__body {
+  box-sizing: inherit;
+}
