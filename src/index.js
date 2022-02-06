@@ -241,12 +241,33 @@ function createPrototypeForFn() {
 }
 
 /**
+ * Оператор опциональной последовательности(?.)
+ * Больше информации и примеров - https://learn.javascript.ru/optional-chaining
+ * Can I use(support) - https://caniuse.com/?search=optional%20chain
+ * */
+
+function createOptionalChainingOperator() {
+  const data = {
+    firstLevel: {
+      secondLevel: {
+        boolean: true,
+      },
+    },
+  };
+
+  console.log(data.firstLevel.secondLevel.boolean); // Сработает
+  // console.log(data.firstLevel.thirdLevel.boolean); // Ошибка
+  console.log(data.firstLevel.thirdLevel && data.firstLevel.thirdLevel.boolean) // Способ нивелировать ошибку, но более громоздкий
+  console.log(data.firstLevel.thirdLevel?.boolean); // Нивелирую ошибку выше с помощью ?.
+}
+
+/**
  * Организация кода
  * */
 
 function createFirstAccordion() {
   new Accordion({
-    id: 'accordion',
+    id: 'accordion1',
     single: false,
     beforeSwitch (hookData) {
       const { nodes, action, next, contentIndex } = hookData;
@@ -284,10 +305,37 @@ function createFirstAccordion() {
 
 function createSecondAccordion() {
   new Accordion({
-    id: 'accordion1',
+    id: 'accordion2',
     single: true,
   });
 }
+
+function createThirdAccordion() {
+  new AccordionExtended({
+    id: 'accordion3',
+    single: true,
+    beforeSwitch({ next }) {
+      console.log('Hook "beforeSwitch" from "createThirdAccordion"');
+      next();
+    }
+  });
+}
+
+/**
+ * DeepMerge - описать можно, но не вижу в этом большой необходимости, так как есть готовые реализации
+ * К тому же они покрывают гораздо больше кейсов(array и object)
+ * Во время реализации необходимо так же учитывать состояние объекта(Object.freeze например или сливать ли поля прототипа). Есть подводные камни
+ *
+ * Пример реализации - https://www.npmjs.com/package/deepmerge
+ * Или - https://www.npmjs.com/package/merge-deep
+ *
+ * Если есть необходимость базового слияния - достаточно использовать оператор spread( [ ...array ] || { ...object } )
+ *
+ * */
+
+/**
+ * DOMContentLoaded
+ * */
 
 function contentLoadedListener() {
   // callEventLoopTest();
@@ -296,4 +344,6 @@ function contentLoadedListener() {
   // createPrototypeForFn();
   // createFirstAccordion();
   // createSecondAccordion();
+  // createThirdAccordion();
+  // createOptionalChainingOperator();
 }
